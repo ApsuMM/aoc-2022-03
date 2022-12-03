@@ -9,24 +9,31 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		BufferedReader reader =  new BufferedReader(new FileReader(Main.class.getClassLoader().getResource("data.txt").getFile()));
+		int total = 0;
+		int counter = 0;
 		
 		String line = null;
-		int total = 0;
+		String[] lines = {null, null, null};
 		while ((line = reader.readLine()) != null)
 		{
-			line = line.trim();
-			int half = line.length() / 2;
-			String firstPart = line.substring(0, half);
-			String secondPart = line.substring(half, line.length());
+			lines[counter] = line;
+			counter++;
 			
-			Character c = findFirstDuplicate(firstPart, secondPart);
-			if (c != null)
+			if (counter == 3)
 			{
-				Integer number = mapNumber(c);
-				total = number != null ? total+=number : total;
+				for (int i = 0; i < line.length(); i++)
+				{
+					CharSequence cs = Character.toString(line.charAt(i));
+					if (lines[0].contains(cs) && lines[1].contains(cs))
+					{
+						Integer number = mapNumber(line.charAt(i));
+						total = number != null ? total+=number : total;
+						break;
+					}
+				}
+				counter = 0;
 			}
 		}
-		
 		System.out.println(total);
 	}
 	
